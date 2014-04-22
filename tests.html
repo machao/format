@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>format 测试用例</title>
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.12.0.css">
+<script src="format.js"></script>
+<script src="http://code.jquery.com/qunit/qunit-1.12.0.js"></script>
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+<script>
+test( "极简模版填充引擎测试用例", 9, function() {
+	var templ, ret, $ = window.jQuery || window;
+
+	templ = "this is a easy {name}.";
+	ret = $.format(templ, {name:"demo"});
+	ok( ret === "this is a easy demo.", "基本调用测试：对象数据源");
+
+	templ = "this is a {1} {0}.";
+	ret = $.format(templ, "demo", "easy");
+	ok( ret === "this is a easy demo.", "基本调用测试：多参数数据源");
+
+	templ = "this is a {1} {0}.";
+	ret = $.format(templ, ["demo", "easy"]);
+	ok( ret === "this is a easy demo.", "基本调用测试：数组数据源");
+
+	templ = "my name is {my.fullName}.";
+	ret = $.format(templ, {
+		"my":{
+			"firstName" : "Ma",
+			"fullName" : "MaChao"
+		}
+	});
+	ok( ret === "my name is MaChao.", "基本调用测试：多级对象数据源");
+
+	templ = "this is a easy {name}{nokey}.";
+	ret = $.format(templ, {name:"demo"});
+	ok( ret === "this is a easy demo{nokey}.", "未提供value的数据源1");
+
+	templ = "this is a easy {0}{1}.";
+	ret = $.format(templ, "demo");
+	ok( ret === "this is a easy demo{1}.", "未提供value的数据源2");
+
+	templ = "this is a easy {0}{1}";
+	ret = $.format(templ, "demo{1}", "!");
+	ok( ret === "this is a easy demo{1}!", "数据源含有占位符测试");
+
+	templ = "this is a easy {0}{1}";
+	ret = $.format(templ);
+	ok( ret === "this is a easy {0}{1}", "未提供数据源1");
+
+	templ = "this is a easy {0}";
+	ret = $.format(templ, null);
+	ok( ret === "this is a easy {0}", "未提供数据源2");
+});
+</script>
+</body>
+</html>
