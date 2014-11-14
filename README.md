@@ -36,7 +36,7 @@
             }
         });
     };
-	})(window.jQuery || window);
+	})(window.jQuery || window.Zepto || window);
 
 对象数据填充：
 
